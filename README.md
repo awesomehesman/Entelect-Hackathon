@@ -54,6 +54,81 @@ python scripts/validate_submission.py --help
 
 This repository is in PHASE 1: simulator foundation and framework validation.
 
+## Level 1 — Reproducing the Submitted Solution
+
+### Requirements
+
+- Python 3
+- No third-party Python dependencies are required for the calibration generator.
+
+### Reproduction
+
+From the extracted source ZIP root, run:
+
+```bash
+python3 scripts/generate_level1_calibration.py
+```
+
+This generates:
+
+```text
+output/level1/calibration-01/solution.json
+```
+
+### Expected SHA-256
+
+The generated `solution.json` must have SHA-256:
+
+```text
+265ff402ff7e094fa7b5944d4a9e881cbf45ef340befbfeb1f401974d05428f7
+```
+
+Verify on macOS or Linux with:
+
+```bash
+shasum -a 256 output/level1/calibration-01/solution.json
+```
+
+On Linux, this alternative is also available:
+
+```bash
+sha256sum output/level1/calibration-01/solution.json
+```
+
+### Expected candidate
+
+Calibration 01 deterministically creates:
+
+- Level: 1
+- Tick: 499
+- Explicit plant actions: 5
+- Serialization field: `plant_index`
+- Species: Grass, Rose Bush, Lavender, Dwarf Sunflower, and Oak Tree
+
+Species indices are resolved from the supplied official `plant_dataset.json`; they are not independently invented by the generator.
+
+### Repository structure
+
+```text
+scripts/generate_level1_calibration.py
+	Deterministically generates the submitted JSON.
+
+Artifacts/additional-resources/plant_dataset.json
+	Official challenge plant dataset used to resolve plant indices.
+
+src/photospheria/levels/level1.py
+	Level 1 constraints and validation used by the generator.
+
+output/level1/calibration-01/solution.json
+	Generated submission artifact.
+```
+
+### Determinism
+
+Running the reproduction command multiple times with the same included source and dataset produces byte-identical `solution.json` output.
+
+This reproduces the exact submitted JSON. It does not reproduce or claim the official leaderboard score; the official challenge evaluator calculates that score.
+
 ## Known blockers
 
 - Level/world files are missing from the repository.
@@ -62,4 +137,4 @@ This repository is in PHASE 1: simulator foundation and framework validation.
 
 ## Important rule
 
-DO NOT GENERATE A COMPETITION SUBMISSION UNTIL THE OFFICIAL LEVEL DATA HAS BEEN LOADED AND THE SIMULATOR HAS PASSED VALIDATION.
+DO NOT GENERATE A FINAL COMPETITION SUBMISSION UNTIL THE OFFICIAL LEVEL DATA HAS BEEN LOADED AND THE SIMULATOR HAS PASSED VALIDATION.
