@@ -1,21 +1,18 @@
-"""Vertical-stripe balanced fill planner (spread-containment strategy).
+"""Dense balanced fill planner optimized for animal spawning.
 
-Learned from the official Level 1-4 evaluation logs: uncontrolled spread turns
-the garden into a Grass/Dwarf-Sunflower monoculture, crashing entropy (the 80%
-score term) to ~0.29-0.32. Manual placement on an already-occupied cell is
-DENIED, so late "rebalancing" plantings fail once a spreader has filled a cell.
+Strategy: Maximize coverage of all 5 starters to trigger animal appearance
+conditions on Levels 2-4 (where animals are enabled). Animals gate many
+plant unlocks, so more animals → more species → higher entropy → higher scores.
 
-This planner assigns each of the five guaranteed starter species its own
-full-height vertical column stripe. Because a species only borders two others
-(and only along a thin vertical seam), spread mostly stays *inside* a species'
-own stripe, which is diversity-neutral (same species). This keeps entropy far
-higher than the interleaved band layout that was previously submitted, while
-still filling most of the grid.
+Animal triggers from animals.json:
+- Loamcrawlers: Grass >= 5% coverage
+- Nectaris: Lavender >= 2% OR flowering group >= 2%
+- Solwings: Dwarf Sunflower >= 3% AND Rose >= 2%
+- Grazeleths: Grass >= 5% AND Rose >= 10 count
+- Canorals: Lavender >= 10 count AND Grass >= 10 count
+- Pollinex: Grass >= 4% AND flowering plants >= 10 count
 
-All placements are scheduled inside the survival window (last ~99 ticks) so the
-manually placed cells are alive at the final tick. Placements are round-robin
-across species so each tick's 20-action batch is balanced.
-
+All placements in survival window so they're alive at scoring.
 Deterministic for fixed inputs.
 """
 
@@ -33,7 +30,8 @@ class StripePlan:
     actions_by_tick: dict[int, list[tuple[int, int, int]]]
     species_order: list[str]
     survival_window: tuple[int, int]
-    stripes: dict[str, tuple[int, int]]  # species -> (col_start, col_end_exclusive)
+    stripes: dict[str, tuple[int, int]]
+    weights: dict[str, int]
 
     def total_actions(self) -> int:
         return sum(len(v) for v in self.actions_by_tick.values())
@@ -44,39 +42,46 @@ def plan_stripe_fill(
     species: list[PlantDefinition],
     *,
     nutrient_capacity: int = 100,
+    use_weights: bool = True,
 ) -> StripePlan:
-    """Assign each species a vertical column stripe and fill it in the window.
-
-    species: ordered starter species; order maps left-to-right to stripes.
+    """Plant maximum density of all species to trigger animal spawns.
+    
+    Uses entire survival window budget, interleaved across the grid.
     """
     n = len(species)
     W, H, T = config.width, config.height, config.total_ticks
     start, end = survival_window(T, nutrient_capacity)
     window_ticks = end - start + 1
     budget = window_ticks * config.max_actions_per_tick
-
-    stripe_w = W // n
-    stripes: dict[str, tuple[int, int]] = {}
-    pools: dict[str, list[tuple[int, int]]] = {}
-    for i, sp in enumerate(species):
-        c0 = i * stripe_w
-        c1 = (i + 1) * stripe_w if i < n - 1 else W
-        stripes[sp.plant] = (c0, c1)
-        # Column-major within the stripe: fill column by column, top to bottom.
-        pools[sp.plant] = [(r, c) for c in range(c0, c1) for r in range(H)]
-
-    # Balanced: each species gets the same count, capped by the smallest stripe
-    # and by the survival-window action budget.
-    per = min(min(len(p) for p in pools.values()), budget // n)
-
-    # Round-robin interleave so every 20-action tick batch is balanced.
-    seq: list[tuple[int, int, int]] = []
+    
+    # All cells in row-major order
+    all_cells = [(r, c) for r in range(H) for c in range(W)]
+    
+    # Equal distribution to maintain diversity
+    per_species = budget // n
+    counts = {sp.plant: per_species for sp in species}
+    
+    # Use any remaining budget
+    remaining = budget - (per_species * n)
+    for sp in species:
+        if remaining <= 0:
+            break
+        counts[sp.plant] += 1
+        remaining -= 1
+    
+    # Build interleaved sequence (round-robin across the full grid)
     idx_of = {sp.plant: sp.index for sp in species}
-    for i in range(per):
+    seq: list[tuple[int, int, int]] = []
+    
+    cell_idx = 0
+    for i in range(per_species + 1):  # +1 for remainder
         for sp in species:
-            r, c = pools[sp.plant][i]
-            seq.append((idx_of[sp.plant], r, c))
-
+            if i < counts[sp.plant] and cell_idx < len(all_cells):
+                r, c = all_cells[cell_idx]
+                seq.append((idx_of[sp.plant], r, c))
+                cell_idx += 1
+    
+    # Distribute to ticks (maximize actions per tick)
     actions_by_tick: dict[int, list[tuple[int, int, int]]] = {}
     per_tick = config.max_actions_per_tick
     for i, action in enumerate(seq):
@@ -87,5 +92,6 @@ def plan_stripe_fill(
         actions_by_tick=actions_by_tick,
         species_order=[sp.plant for sp in species],
         survival_window=(start, end),
-        stripes=stripes,
+        stripes={},
+        weights=counts,
     )

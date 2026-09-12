@@ -19,59 +19,37 @@
     701,
     799
   ],
-  "stripes": {
-    "Grass": [
-      0,
-      40
-    ],
-    "Rose Bush": [
-      40,
-      80
-    ],
-    "Lavender": [
-      80,
-      120
-    ],
-    "Dwarf Sunflower": [
-      120,
-      160
-    ],
-    "Oak Tree": [
-      160,
-      200
-    ]
-  },
+  "stripes": {},
   "total_actions": 1980,
   "predicted_all_soil_no_spread": {
-    "occupied_cells_C": 1980,
-    "species_present": 5,
-    "entropy": 0.4686790650623293,
-    "main_score": 0.015466409147056869,
-    "longevity_score": 0.0020625,
-    "final_score": 0.012785627317645496,
-    "leaderboard_score": 12785627,
+    "occupied_cells_C": 1584,
+    "species_present": 4,
+    "entropy": 0.4036981731641997,
+    "main_score": 0.010657631771534871,
+    "longevity_score": 0.00165,
+    "final_score": 0.008856105417227898,
+    "leaderboard_score": 8856105,
     "species_counts": {
       "Dwarf Sunflower": 396,
-      "Grass": 396,
       "Lavender": 396,
       "Oak Tree": 396,
       "Rose Bush": 396
     }
   },
   "predicted_all_soil_with_spread": {
-    "occupied_cells_C": 22566,
+    "occupied_cells_C": 8831,
     "species_present": 5,
-    "entropy": 0.33604150447865233,
-    "main_score": 0.12638520983442114,
-    "longevity_score": 0.01674233333333333,
-    "final_score": 0.10445663453420358,
-    "leaderboard_score": 104456635,
+    "entropy": 0.2348849081832901,
+    "main_score": 0.03457114373611058,
+    "longevity_score": 0.006961395833333333,
+    "final_score": 0.02904919415555513,
+    "leaderboard_score": 29049194,
     "species_counts": {
-      "Dwarf Sunflower": 9498,
-      "Grass": 8976,
-      "Lavender": 396,
-      "Oak Tree": 3300,
-      "Rose Bush": 396
+      "Dwarf Sunflower": 326,
+      "Grass": 6862,
+      "Lavender": 325,
+      "Oak Tree": 993,
+      "Rose Bush": 325
     }
   },
   "notes": [
