@@ -11,22 +11,32 @@
 
 ## Results table
 
-Official (from SubmissionLogs/):
+Official results (from SubmissionLogs/ and output/levelN/Logs/):
 
-| Attempt | Level | Strategy | Species | C | Entropy | Official Score | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| L1-cal01 | 1 | 5 plants @ tick 499 (calibration) | 5 | 5 | 0.4687 | 750,687 | Calibrated alpha=1, k=1 |
-| L4-cal01 | 4 | reused L1 calibration file | 0 | 0 | 0.0 | 0 | Centre coords non-soil in L4 |
+| Attempt | Level | Grid | Strategy | C | Entropy | Official Score |
+| --- | --- | --- | --- | --- | --- | --- |
+| cal01 | 1 | 50x50 | 5 plants @ tick 499 (calibration) | 5 | 0.4687 | 750,687 |
+| cal01 | 4 | 200x300 | reused L1 calibration file | 0 | 0.0 | 0 (centre non-soil) |
+| band-fill | 1 | 50x50 | zoned band fill (5 starters) | 1793 | 0.322 | 193,420,934 |
+| band-fill | 2 | 70x100 | zoned band fill (5 starters) | 5700 | 0.317 | 218,027,623 |
+| band-fill | 3 | 150x150 | zoned band fill (5 starters) | 11858 | 0.320 | 141,237,911 |
+| band-fill | 4 | 200x300 | zoned band fill (5 starters) | 11347 | 0.288 | 45,890,894 |
 
-Best-known candidates (local simulator predictions on assumed all-soil world;
-see docs/SOLUTIONS.md). Not yet submitted to the official evaluator.
+Lessons from the band-fill submissions: uncontrolled spread collapsed every
+level to a Grass/Dwarf-Sunflower monoculture (entropy ~0.29-0.32), and manual
+placement on an already-occupied cell is DENIED. Level 2 is 70x100 (not 100x70).
 
-| Candidate | Level | Strategy | Predicted floor (no spread) | Predicted with spread |
+Current best-known candidates use the vertical-stripe spread-containment layout
+(each species confined to its own column stripe so spread stays diversity-
+neutral). Local-simulator predictions (optimistic; the sim overpredicted L1 by
+~1.75x, so discount accordingly):
+
+| Candidate | Level | Grid | Predicted with-spread (optimistic) | Beats current official? |
 | --- | --- | --- | --- | --- |
-| candidate-best | 1 | zoned balanced survival-window fill (5 starters) | 312,795,056 | 376,690,788 |
-| candidate-best | 2 | zoned balanced survival-window fill (5 starters) | 111,712,520 | 304,625,112 |
-| candidate-best | 3 | zoned balanced survival-window fill (5 starters) | 34,095,006 | 136,830,826 |
-| candidate-best | 4 | zoned balanced survival-window fill (5 starters) | 12,785,627 | 68,046,822 |
+| candidate-best | 1 | 50x50 | 388,652,852 | yes (>193M) |
+| candidate-best | 2 | 70x100 | 360,273,410 | yes (>218M) |
+| candidate-best | 3 | 150x150 | 179,774,086 | yes (>141M) |
+| candidate-best | 4 | 200x300 | 104,456,635 | yes (>46M) |
 
-Reproduce with `python scripts/generate_solutions.py`. Predicted scores bracket
-the real outcome; the official evaluator uses the hidden level terrain file.
+Reproduce with `python scripts/generate_solutions.py`. Compare the sim to the
+official logs with `python scripts/compare_logs.py`.
