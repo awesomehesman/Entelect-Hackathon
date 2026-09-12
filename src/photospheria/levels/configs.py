@@ -32,10 +32,10 @@ def level_config(level_id: int) -> WorldConfig:
             events_enabled=False, season_schedule=SEASONS_500,
         )
     if level_id == 2:
-        # ASSUMED dims (repo): 100x70, T=500. Animals/weather ON (PDF: "critters
-        # and elements"). Season schedule assumed = SEASONS_500. Events unknown.
+        # CONFIRMED (log): loaded level (70x100), T=500. Width=70, height=100.
+        # Animals/weather ON. Season schedule assumed = SEASONS_500.
         return WorldConfig(
-            level_id=2, width=100, height=70, total_ticks=500,
+            level_id=2, width=70, height=100, total_ticks=500,
             seasons_enabled=True, animals_enabled=True, weather_enabled=True,
             events_enabled=True, season_schedule=SEASONS_500,
         )
@@ -61,7 +61,7 @@ def level_config(level_id: int) -> WorldConfig:
 LEVEL_CERTAINTY = {
     1: {"dims": "confirmed(log)", "ticks": "confirmed(log)", "seasons": "confirmed(log)",
         "animals": "confirmed(off)", "weather": "confirmed(off)", "events": "confirmed(none)"},
-    2: {"dims": "assumed(repo)", "ticks": "assumed(repo)", "seasons": "assumed",
+    2: {"dims": "confirmed(log:70x100)", "ticks": "confirmed(log:500)", "seasons": "assumed",
         "animals": "confirmed(on)", "weather": "confirmed(on)", "events": "assumed"},
     3: {"dims": "assumed(repo)", "ticks": "assumed", "seasons": "assumed",
         "animals": "confirmed(on)", "weather": "confirmed(on)", "events": "assumed"},

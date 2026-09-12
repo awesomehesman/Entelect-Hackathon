@@ -67,6 +67,12 @@ class EngineAssumptions:
     feature_count_decimal_is_fraction: bool = True
     spread_enabled: bool = True
     last_spread_wins: bool = True
+    # EMPIRICALLY OBSERVED (Level 1 log 37e06529): a manual planting action on a
+    # cell that is already occupied by a living plant is DENIED ("plant already
+    # occupies cell"), not applied as a replacement. This overrides the PDF text
+    # (which describes replacement) per the authority order in AGENTS.md
+    # (verified evaluator behaviour outranks the problem statement).
+    manual_denied_on_occupied: bool = True
     # lifespan of a plant present at final scoring = scored_day - birth_tick.
     # scored_day = total_ticks - 1 (final tick index). Calibrated on Level 1.
     lifespan_offset: int = 0
@@ -409,7 +415,9 @@ class Simulator:
         cell = self.cells[row][col]
         if not self._can_plant(species, cell):
             return False
-        # Replacement: existing plant is replaced.
+        if self.assumptions.manual_denied_on_occupied and cell.plant is not None and cell.plant.alive:
+            # Denied: the cell is already occupied by a living plant.
+            return False
         self._place(cell, species, tick)
         return True
 
