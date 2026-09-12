@@ -5,20 +5,34 @@ from enum import Enum
 from typing import Any
 
 from photospheria.exceptions import ValidationError
+from photospheria.levels.base import LevelConfig
 
 INITIAL_LEVEL1_SPECIES = frozenset({"Grass", "Rose Bush", "Lavender", "Dwarf Sunflower", "Oak Tree"})
 LEVEL1_WEATHER_EVENTS = frozenset({"Rain", "Drought", "Ash Eclipse", "Earthquake"})
+LEVEL1_SEASON_SCHEDULE = ((0, "Spring"), (100, "Summer"), (200, "Autumn"), (300, "Winter"), (400, "Spring"))
 
 
 @dataclass(frozen=True)
-class Level1Constraints:
+class Level1Constraints(LevelConfig):
+    level_id: int = 1
     width: int = 50
     height: int = 50
     total_ticks: int = 500
     max_actions_per_tick: int = 20
     animals_enabled: bool = False
     weather_enabled: bool = False
+    world_events_enabled: bool = False
     seasons_enabled: bool = True
+    season_schedule: tuple[tuple[int, str], ...] = LEVEL1_SEASON_SCHEDULE
+    initial_species: frozenset[str] = INITIAL_LEVEL1_SPECIES
+    alpha: float = 1.0
+    submission_field: str = "plant_index"
+
+    @staticmethod
+    def season_at(tick: int) -> str:
+        if not 0 <= tick < 500:
+            raise ValidationError(f"Tick must be in 0..499: {tick}")
+        return max((entry for entry in LEVEL1_SEASON_SCHEDULE if entry[0] <= tick), key=lambda entry: entry[0])[1]
 
     def validate_action(self, tick: int, row: int, col: int, plant: str, unlocked_species: set[str]) -> None:
         if not 0 <= tick < self.total_ticks:
