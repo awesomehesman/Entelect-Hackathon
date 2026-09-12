@@ -37,7 +37,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from photospheria.data.loaders import load_challenge_data
 from photospheria.levels.configs import LEVEL_CERTAINTY, level_config
 from photospheria.simulation.full_engine import EngineAssumptions, Simulator
-from photospheria.solver.balanced_fill import order_species_for_shade, plan_zoned_fill
+from photospheria.solver.stripe_fill import plan_stripe_fill
 
 STARTERS = ["Grass", "Rose Bush", "Lavender", "Dwarf Sunflower", "Oak Tree"]
 
@@ -57,9 +57,9 @@ def to_evaluator_json(actions_by_tick: dict[int, list[tuple[int, int, int]]]) ->
 def build_for_level(level_id: int, data: dict) -> tuple[dict, dict]:
     config = level_config(level_id)
     plants = {p.plant: p for p in data["plants"]}
-    species = order_species_for_shade([plants[n] for n in STARTERS])
+    species = [plants[n] for n in STARTERS]
 
-    plan = plan_zoned_fill(config, species, coverage_fraction=1.0)
+    plan = plan_stripe_fill(config, species)
     solution = to_evaluator_json(plan.actions_by_tick)
 
     # Predicted score on an assumed all-soil world (both with and without spread
@@ -82,9 +82,10 @@ def build_for_level(level_id: int, data: dict) -> tuple[dict, dict]:
         "config_certainty": LEVEL_CERTAINTY[level_id],
         "grid": {"width": config.width, "height": config.height, "cmax": config.cmax,
                  "total_ticks": config.total_ticks},
-        "strategy": "zoned balanced survival-window fill of the 5 guaranteed starter species",
+        "strategy": "vertical-stripe balanced survival-window fill of the 5 "
+                    "guaranteed starter species (spread-containment)",
         "survival_window": plan.survival_window,
-        "zones": plan.zones,
+        "stripes": plan.stripes,
         "total_actions": plan.total_actions(),
         "predicted_all_soil_no_spread": {
             "occupied_cells_C": floor.occupied_cells,
@@ -108,11 +109,15 @@ def build_for_level(level_id: int, data: dict) -> tuple[dict, dict]:
         },
         "notes": [
             "alpha=1, k=1 calibrated exactly against the official Level 1 log.",
-            "Scores are predictions on an assumed all-soil world; the official "
-            "evaluator uses the hidden level terrain/soil/event file.",
-            "The plan spreads placements grid-wide and only plants guaranteed "
-            "species, so it degrades gracefully and cannot be zeroed by hostile "
-            "terrain the way a fixed coordinate list can.",
+            "Manual placement on an occupied cell is DENIED (observed in the "
+            "official logs), so each species is confined to its own vertical "
+            "stripe; spread stays mostly within a stripe (diversity-neutral), "
+            "keeping entropy far higher than the previously submitted band "
+            "layout (which monocultured to entropy ~0.32).",
+            "Scores are local-simulator predictions and are optimistic: the "
+            "simulator's spread model diverges from the official evaluator "
+            "(observed ~1.75x overprediction on Level 1). Treat them as an "
+            "upper-ish bound, not the official score.",
         ],
     }
     return solution, diagnostics

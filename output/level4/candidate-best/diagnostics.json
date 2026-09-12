@@ -14,31 +14,31 @@
     "cmax": 60000,
     "total_ticks": 800
   },
-  "strategy": "zoned balanced survival-window fill of the 5 guaranteed starter species",
+  "strategy": "vertical-stripe balanced survival-window fill of the 5 guaranteed starter species (spread-containment)",
   "survival_window": [
     701,
     799
   ],
-  "zones": {
+  "stripes": {
     "Grass": [
       0,
-      60
+      40
     ],
     "Rose Bush": [
-      60,
+      40,
+      80
+    ],
+    "Lavender": [
+      80,
       120
     ],
     "Dwarf Sunflower": [
       120,
-      180
-    ],
-    "Lavender": [
-      180,
-      240
+      160
     ],
     "Oak Tree": [
-      240,
-      300
+      160,
+      200
     ]
   },
   "total_actions": 1980,
@@ -59,24 +59,24 @@
     }
   },
   "predicted_all_soil_with_spread": {
-    "occupied_cells_C": 17278,
+    "occupied_cells_C": 22566,
     "species_present": 5,
-    "entropy": 0.2828856847430278,
-    "main_score": 0.08146164768316723,
-    "longevity_score": 0.014387520833333334,
-    "final_score": 0.06804682231320046,
-    "leaderboard_score": 68046822,
+    "entropy": 0.33604150447865233,
+    "main_score": 0.12638520983442114,
+    "longevity_score": 0.01674233333333333,
+    "final_score": 0.10445663453420358,
+    "leaderboard_score": 104456635,
     "species_counts": {
-      "Dwarf Sunflower": 8090,
-      "Grass": 8000,
+      "Dwarf Sunflower": 9498,
+      "Grass": 8976,
       "Lavender": 396,
-      "Oak Tree": 396,
+      "Oak Tree": 3300,
       "Rose Bush": 396
     }
   },
   "notes": [
     "alpha=1, k=1 calibrated exactly against the official Level 1 log.",
-    "Scores are predictions on an assumed all-soil world; the official evaluator uses the hidden level terrain/soil/event file.",
-    "The plan spreads placements grid-wide and only plants guaranteed species, so it degrades gracefully and cannot be zeroed by hostile terrain the way a fixed coordinate list can."
+    "Manual placement on an occupied cell is DENIED (observed in the official logs), so each species is confined to its own vertical stripe; spread stays mostly within a stripe (diversity-neutral), keeping entropy far higher than the previously submitted band layout (which monocultured to entropy ~0.32).",
+    "Scores are local-simulator predictions and are optimistic: the simulator's spread model diverges from the official evaluator (observed ~1.75x overprediction on Level 1). Treat them as an upper-ish bound, not the official score."
   ]
 }

@@ -1,25 +1,25 @@
 {
   "level": 2,
   "config_certainty": {
-    "dims": "assumed(repo)",
-    "ticks": "assumed(repo)",
+    "dims": "confirmed(log:70x100)",
+    "ticks": "confirmed(log:500)",
     "seasons": "assumed",
     "animals": "confirmed(on)",
     "weather": "confirmed(on)",
     "events": "assumed"
   },
   "grid": {
-    "width": 100,
-    "height": 70,
+    "width": 70,
+    "height": 100,
     "cmax": 7000,
     "total_ticks": 500
   },
-  "strategy": "zoned balanced survival-window fill of the 5 guaranteed starter species",
+  "strategy": "vertical-stripe balanced survival-window fill of the 5 guaranteed starter species (spread-containment)",
   "survival_window": [
     401,
     499
   ],
-  "zones": {
+  "stripes": {
     "Grass": [
       0,
       14
@@ -28,11 +28,11 @@
       14,
       28
     ],
-    "Dwarf Sunflower": [
+    "Lavender": [
       28,
       42
     ],
-    "Lavender": [
+    "Dwarf Sunflower": [
       42,
       56
     ],
@@ -59,24 +59,24 @@
     }
   },
   "predicted_all_soil_with_spread": {
-    "occupied_cells_C": 5996,
+    "occupied_cells_C": 6436,
     "species_present": 5,
-    "entropy": 0.41555599273353416,
-    "main_score": 0.35595339034718154,
-    "longevity_score": 0.099312,
-    "final_score": 0.30462511227774525,
-    "leaderboard_score": 304625112,
+    "entropy": 0.457330458927112,
+    "main_score": 0.42048269052212756,
+    "longevity_score": 0.11943628571428572,
+    "final_score": 0.36027340956055925,
+    "leaderboard_score": 360273410,
     "species_counts": {
-      "Dwarf Sunflower": 1904,
-      "Grass": 1400,
-      "Lavender": 1900,
-      "Oak Tree": 396,
-      "Rose Bush": 396
+      "Dwarf Sunflower": 1900,
+      "Grass": 1200,
+      "Lavender": 1400,
+      "Oak Tree": 1136,
+      "Rose Bush": 800
     }
   },
   "notes": [
     "alpha=1, k=1 calibrated exactly against the official Level 1 log.",
-    "Scores are predictions on an assumed all-soil world; the official evaluator uses the hidden level terrain/soil/event file.",
-    "The plan spreads placements grid-wide and only plants guaranteed species, so it degrades gracefully and cannot be zeroed by hostile terrain the way a fixed coordinate list can."
+    "Manual placement on an occupied cell is DENIED (observed in the official logs), so each species is confined to its own vertical stripe; spread stays mostly within a stripe (diversity-neutral), keeping entropy far higher than the previously submitted band layout (which monocultured to entropy ~0.32).",
+    "Scores are local-simulator predictions and are optimistic: the simulator's spread model diverges from the official evaluator (observed ~1.75x overprediction on Level 1). Treat them as an upper-ish bound, not the official score."
   ]
 }

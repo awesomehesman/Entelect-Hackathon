@@ -14,12 +14,12 @@
     "cmax": 2500,
     "total_ticks": 500
   },
-  "strategy": "zoned balanced survival-window fill of the 5 guaranteed starter species",
+  "strategy": "vertical-stripe balanced survival-window fill of the 5 guaranteed starter species (spread-containment)",
   "survival_window": [
     401,
     499
   ],
-  "zones": {
+  "stripes": {
     "Grass": [
       0,
       10
@@ -28,11 +28,11 @@
       10,
       20
     ],
-    "Dwarf Sunflower": [
+    "Lavender": [
       20,
       30
     ],
-    "Lavender": [
+    "Dwarf Sunflower": [
       30,
       40
     ],
@@ -59,24 +59,24 @@
     }
   },
   "predicted_all_soil_with_spread": {
-    "occupied_cells_C": 2396,
+    "occupied_cells_C": 2468,
     "species_present": 5,
-    "entropy": 0.46488072255175955,
-    "main_score": 0.44554168449360637,
-    "longevity_score": 0.1012872,
-    "final_score": 0.3766907875948851,
-    "leaderboard_score": 376690788,
+    "entropy": 0.45524824308237344,
+    "main_score": 0.44942106557091904,
+    "longevity_score": 0.14558,
+    "final_score": 0.38865285245673525,
+    "leaderboard_score": 388652852,
     "species_counts": {
-      "Dwarf Sunflower": 500,
-      "Grass": 500,
-      "Lavender": 604,
-      "Oak Tree": 396,
-      "Rose Bush": 396
+      "Dwarf Sunflower": 683,
+      "Grass": 450,
+      "Lavender": 517,
+      "Oak Tree": 568,
+      "Rose Bush": 250
     }
   },
   "notes": [
     "alpha=1, k=1 calibrated exactly against the official Level 1 log.",
-    "Scores are predictions on an assumed all-soil world; the official evaluator uses the hidden level terrain/soil/event file.",
-    "The plan spreads placements grid-wide and only plants guaranteed species, so it degrades gracefully and cannot be zeroed by hostile terrain the way a fixed coordinate list can."
+    "Manual placement on an occupied cell is DENIED (observed in the official logs), so each species is confined to its own vertical stripe; spread stays mostly within a stripe (diversity-neutral), keeping entropy far higher than the previously submitted band layout (which monocultured to entropy ~0.32).",
+    "Scores are local-simulator predictions and are optimistic: the simulator's spread model diverges from the official evaluator (observed ~1.75x overprediction on Level 1). Treat them as an upper-ish bound, not the official score."
   ]
 }
