@@ -1,0 +1,82 @@
+{
+  "level": 4,
+  "config_certainty": {
+    "dims": "confirmed(log:200x300)",
+    "ticks": "confirmed(log:800)",
+    "seasons": "confirmed(log)",
+    "animals": "confirmed(on)",
+    "weather": "confirmed(on)",
+    "events": "confirmed(log)"
+  },
+  "grid": {
+    "width": 200,
+    "height": 300,
+    "cmax": 60000,
+    "total_ticks": 800
+  },
+  "strategy": "zoned balanced survival-window fill of the 5 guaranteed starter species",
+  "survival_window": [
+    701,
+    799
+  ],
+  "zones": {
+    "Grass": [
+      0,
+      60
+    ],
+    "Rose Bush": [
+      60,
+      120
+    ],
+    "Dwarf Sunflower": [
+      120,
+      180
+    ],
+    "Lavender": [
+      180,
+      240
+    ],
+    "Oak Tree": [
+      240,
+      300
+    ]
+  },
+  "total_actions": 1980,
+  "predicted_all_soil_no_spread": {
+    "occupied_cells_C": 1980,
+    "species_present": 5,
+    "entropy": 0.4686790650623293,
+    "main_score": 0.015466409147056869,
+    "longevity_score": 0.0020625,
+    "final_score": 0.012785627317645496,
+    "leaderboard_score": 12785627,
+    "species_counts": {
+      "Dwarf Sunflower": 396,
+      "Grass": 396,
+      "Lavender": 396,
+      "Oak Tree": 396,
+      "Rose Bush": 396
+    }
+  },
+  "predicted_all_soil_with_spread": {
+    "occupied_cells_C": 17278,
+    "species_present": 5,
+    "entropy": 0.2828856847430278,
+    "main_score": 0.08146164768316723,
+    "longevity_score": 0.014387520833333334,
+    "final_score": 0.06804682231320046,
+    "leaderboard_score": 68046822,
+    "species_counts": {
+      "Dwarf Sunflower": 8090,
+      "Grass": 8000,
+      "Lavender": 396,
+      "Oak Tree": 396,
+      "Rose Bush": 396
+    }
+  },
+  "notes": [
+    "alpha=1, k=1 calibrated exactly against the official Level 1 log.",
+    "Scores are predictions on an assumed all-soil world; the official evaluator uses the hidden level terrain/soil/event file.",
+    "The plan spreads placements grid-wide and only plants guaranteed species, so it degrades gracefully and cannot be zeroed by hostile terrain the way a fixed coordinate list can."
+  ]
+}

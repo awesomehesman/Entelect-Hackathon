@@ -1,0 +1,82 @@
+{
+  "level": 2,
+  "config_certainty": {
+    "dims": "assumed(repo)",
+    "ticks": "assumed(repo)",
+    "seasons": "assumed",
+    "animals": "confirmed(on)",
+    "weather": "confirmed(on)",
+    "events": "assumed"
+  },
+  "grid": {
+    "width": 100,
+    "height": 70,
+    "cmax": 7000,
+    "total_ticks": 500
+  },
+  "strategy": "zoned balanced survival-window fill of the 5 guaranteed starter species",
+  "survival_window": [
+    401,
+    499
+  ],
+  "zones": {
+    "Grass": [
+      0,
+      14
+    ],
+    "Rose Bush": [
+      14,
+      28
+    ],
+    "Dwarf Sunflower": [
+      28,
+      42
+    ],
+    "Lavender": [
+      42,
+      56
+    ],
+    "Oak Tree": [
+      56,
+      70
+    ]
+  },
+  "total_actions": 1980,
+  "predicted_all_soil_no_spread": {
+    "occupied_cells_C": 1980,
+    "species_present": 5,
+    "entropy": 0.4686790650623293,
+    "main_score": 0.13256922126048742,
+    "longevity_score": 0.028285714285714286,
+    "final_score": 0.11171251986553281,
+    "leaderboard_score": 111712520,
+    "species_counts": {
+      "Dwarf Sunflower": 396,
+      "Grass": 396,
+      "Lavender": 396,
+      "Oak Tree": 396,
+      "Rose Bush": 396
+    }
+  },
+  "predicted_all_soil_with_spread": {
+    "occupied_cells_C": 5996,
+    "species_present": 5,
+    "entropy": 0.41555599273353416,
+    "main_score": 0.35595339034718154,
+    "longevity_score": 0.099312,
+    "final_score": 0.30462511227774525,
+    "leaderboard_score": 304625112,
+    "species_counts": {
+      "Dwarf Sunflower": 1904,
+      "Grass": 1400,
+      "Lavender": 1900,
+      "Oak Tree": 396,
+      "Rose Bush": 396
+    }
+  },
+  "notes": [
+    "alpha=1, k=1 calibrated exactly against the official Level 1 log.",
+    "Scores are predictions on an assumed all-soil world; the official evaluator uses the hidden level terrain/soil/event file.",
+    "The plan spreads placements grid-wide and only plants guaranteed species, so it degrades gracefully and cannot be zeroed by hostile terrain the way a fixed coordinate list can."
+  ]
+}
