@@ -129,6 +129,31 @@ Running the reproduction command multiple times with the same included source an
 
 This reproduces the exact submitted JSON. It does not reproduce or claim the official leaderboard score; the official challenge evaluator calculates that score.
 
+## Level 1 Candidate 02 — Reproduction
+
+Candidate 02 is a local, unsubmitted calibration candidate. It uses 1,980 explicit placements in five survival-safe spatial zones and does not claim an official score.
+
+From the extracted source ZIP root, run:
+
+```bash
+python3 scripts/generate_level1_candidate2.py
+```
+
+This generates:
+
+```text
+output/level1/candidate-02/solution.json
+output/level1/candidate-02/diagnostics.json
+```
+
+The expected `solution.json` SHA-256 is:
+
+```text
+c27cb507a24584c557c5f0a0cde6d3d33e9bfdd3b222639bb45964ade204528e
+```
+
+The command reproduces the exact candidate JSON. It does not reproduce or claim the official evaluator score.
+
 ## Known blockers
 
 - Level/world files are missing from the repository.

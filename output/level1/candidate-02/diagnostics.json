@@ -1,0 +1,204 @@
+{
+  "candidate": "Level 1 Candidate 02",
+  "strategy": "late survival-safe five-zone stripes with Oak last; no-spread fallback",
+  "explicit_placements": 1980,
+  "tick_range": [
+    401,
+    499
+  ],
+  "actions_per_tick": {
+    "401": 20,
+    "402": 20,
+    "403": 20,
+    "404": 20,
+    "405": 20,
+    "406": 20,
+    "407": 20,
+    "408": 20,
+    "409": 20,
+    "410": 20,
+    "411": 20,
+    "412": 20,
+    "413": 20,
+    "414": 20,
+    "415": 20,
+    "416": 20,
+    "417": 20,
+    "418": 20,
+    "419": 20,
+    "420": 20,
+    "421": 20,
+    "422": 20,
+    "423": 20,
+    "424": 20,
+    "425": 20,
+    "426": 20,
+    "427": 20,
+    "428": 20,
+    "429": 20,
+    "430": 20,
+    "431": 20,
+    "432": 20,
+    "433": 20,
+    "434": 20,
+    "435": 20,
+    "436": 20,
+    "437": 20,
+    "438": 20,
+    "439": 20,
+    "440": 20,
+    "441": 20,
+    "442": 20,
+    "443": 20,
+    "444": 20,
+    "445": 20,
+    "446": 20,
+    "447": 20,
+    "448": 20,
+    "449": 20,
+    "450": 20,
+    "451": 20,
+    "452": 20,
+    "453": 20,
+    "454": 20,
+    "455": 20,
+    "456": 20,
+    "457": 20,
+    "458": 20,
+    "459": 20,
+    "460": 20,
+    "461": 20,
+    "462": 20,
+    "463": 20,
+    "464": 20,
+    "465": 20,
+    "466": 20,
+    "467": 20,
+    "468": 20,
+    "469": 20,
+    "470": 20,
+    "471": 20,
+    "472": 20,
+    "473": 20,
+    "474": 20,
+    "475": 20,
+    "476": 20,
+    "477": 20,
+    "478": 20,
+    "479": 20,
+    "480": 20,
+    "481": 20,
+    "482": 20,
+    "483": 20,
+    "484": 20,
+    "485": 20,
+    "486": 20,
+    "487": 20,
+    "488": 20,
+    "489": 20,
+    "490": 20,
+    "491": 20,
+    "492": 20,
+    "493": 20,
+    "494": 20,
+    "495": 20,
+    "496": 20,
+    "497": 20,
+    "498": 20,
+    "499": 20
+  },
+  "target_cells": "1980 deterministic zone coordinates; 520 intentional buffer cells remain unused",
+  "expected_final_counts_no_spread": {
+    "Grass": 396,
+    "Rose Bush": 396,
+    "Lavender": 396,
+    "Dwarf Sunflower": 396,
+    "Oak Tree": 396
+  },
+  "expected_occupancy_no_spread": 0.792,
+  "expected_entropy": 0.4686790650623293,
+  "expected_main_score_alpha_1": 0.3711938195293648,
+  "expected_longevity_score_k_1": 0.0792,
+  "predicted_final_score_k_1_alpha_1": 0.31279505562349186,
+  "predicted_leaderboard_score_1e9_scale": 312795056,
+  "confirmed_components": {
+    "occupancy": 0.792,
+    "entropy": 0.4686790650623293,
+    "main_score_alpha_1": 0.3711938195293648
+  },
+  "hypothetical_k_1_components": {
+    "longevity_score": 0.0792,
+    "combined_score": 0.31279505562349186
+  },
+  "expected_average_lifespan_k_1_by_species": {
+    "Grass": 89.5959595959596,
+    "Rose Bush": 69.79797979797979,
+    "Lavender": 50.0,
+    "Dwarf Sunflower": 30.2020202020202,
+    "Oak Tree": 10.404040404040405
+  },
+  "exposure_ticks": {
+    "minimum": 1,
+    "maximum": 99,
+    "average": 50.0
+  },
+  "zone_layout": {
+    "Grass": {
+      "row_start": 0,
+      "row_count": 8,
+      "cells": 396
+    },
+    "Rose Bush": {
+      "row_start": 8,
+      "row_count": 8,
+      "cells": 396
+    },
+    "Lavender": {
+      "row_start": 16,
+      "row_count": 8,
+      "cells": 396
+    },
+    "Dwarf Sunflower": {
+      "row_start": 24,
+      "row_count": 8,
+      "cells": 396
+    },
+    "Oak Tree": {
+      "row_start": 42,
+      "row_count": 8,
+      "cells": 396
+    }
+  },
+  "intentional_unused_cells": 520,
+  "shade_risk": {
+    "oak_shade_radius": 4,
+    "minimum_grass_oak_row_distance": 35,
+    "grass_target_cells_in_possible_oak_shade": 0,
+    "dwarf_sunflower_target_cells_in_possible_oak_shade": 0,
+    "dwarf_oak_boundary": "ten unused buffer rows separate Dwarf Sunflower and Oak; possible Oak shade reaches zero Dwarf Sunflower rows"
+  },
+  "old_candidate_comparison": {
+    "placements": 2500,
+    "ticks": [
+      375,
+      499
+    ],
+    "occupancy": 1.0,
+    "risk": "early placements could reach the nutrient death boundary"
+  },
+  "new_candidate_comparison": {
+    "placements": 1980,
+    "ticks": [
+      401,
+      499
+    ],
+    "occupancy": 0.792,
+    "risk_reduction": "every explicit exposure is strictly below 100 ticks"
+  },
+  "risks": [
+    "unknown terrain/soil may reject placements",
+    "natural spread and tick ordering are not modeled",
+    "lower occupancy ceiling than the old candidate",
+    "Oak shade semantics remain evaluator-dependent"
+  ]
+}

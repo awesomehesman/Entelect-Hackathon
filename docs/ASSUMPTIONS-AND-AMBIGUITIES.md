@@ -4,10 +4,10 @@ This file records unresolved questions and contradictions from the challenge dat
 
 ## AMB-001 — Submission key discrepancy: "plant_index" vs "index"
 
-- Status: BLOCKING
+- Status: OFFICIALLY OBSERVED FOR LEVEL 1; GENERIC DISCREPANCY REMAINS
 - Conflict: The example submission uses "plant_index" while the schema section uses "index".
 - Evidence: problem-statement.pdf shows example with plant_index; later schema says index.
-- Resolution: No silent resolution. This remains a validation blocker until the official submission checker or level/world files confirm the intended field name.
+- Resolution: The official Level 1 evaluator accepted `plant_index` in Calibration 01. Generic support for `index` remains because the PDF schema still shows both names and no Level 2-4 evidence exists.
 
 ## AMB-002 — Classification naming discrepancy
 

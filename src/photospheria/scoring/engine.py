@@ -33,3 +33,17 @@ def longevity_score(lifespans: list[float], total_ticks: int, maximum_cells: int
 
 def final_score(main: float, longevity: float) -> float:
     return 0.8 * main + 0.2 * longevity
+
+
+def main_score_for_config(entropy: float, occupied_cells: int, config: object) -> float:
+    alpha = getattr(config, "alpha", None)
+    if alpha is None:
+        raise ValidationError("LevelConfig does not contain a confirmed alpha value.")
+    return main_score(entropy, occupied_cells, int(getattr(config, "maximum_cells")), alpha=float(alpha))
+
+
+def longevity_score_for_config(lifespans: list[float], config: object) -> float:
+    k = getattr(config, "k", None)
+    if k is None:
+        raise ValidationError("LevelConfig does not contain a confirmed k value.")
+    return longevity_score(lifespans, int(getattr(config, "total_ticks")), int(getattr(config, "maximum_cells")), k=float(k))
